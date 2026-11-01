@@ -112,7 +112,13 @@
   @media (max-width: 560px) { .solutions ol { columns: 1; } }
   .solutions li { break-inside: avoid; }
   .solutions b { font-family: var(--display); font-size: 1.05rem; font-weight: 600; }
+  .pdfbar { max-width: 860px; margin: 0 auto 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .9rem; color: var(--ink-soft); }
+  .pdfbar-label { font-weight: 600; }
+  .pdfbtn { text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--rubric); background: var(--rubric); color: #fff; font-weight: 600; font-size: .9rem; cursor: pointer; font-family: var(--body); }
+  .pdfbtn.print { background: transparent; color: var(--rubric); }
+  .pdfbtn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   @media print {
+    .pdfbar { display: none; }
     body { background: #fff; padding: 0; }
     .topbar, .toolbar { display: none; }
     .sheet { border: 0; box-shadow: none; max-width: none; padding: 0; }
@@ -132,6 +138,13 @@
     <a href="#lueckentext" id="tab-lueckentext">Lückentext</a>
   </div>
 </nav>
+<div class="pdfbar" aria-label="Als PDF speichern oder drucken">
+  <span class="pdfbar-label">Als PDF speichern:</span>
+  <a class="pdfbtn" href="Mittelalter_Infoblatt.pdf" download>Infoblatt (PDF)</a>
+  <a class="pdfbtn" href="Mittelalter_Lueckentext.pdf" download>Lückentext (PDF)</a>
+  <a class="pdfbtn" href="Mittelalter_Loesungen.pdf" download>Lösungen (PDF)</a>
+  <button type="button" class="pdfbtn print" id="print-page">Drucken</button>
+</div>
 
 <!-- ───────────────────────────── INFOBLATT ───────────────────────────── -->
 <article class="view sheet" id="view-infoblatt">
@@ -464,6 +477,7 @@
     }
     window.addEventListener("hashchange", show);
     show();
+    document.getElementById("print-page").addEventListener("click", function () { window.print(); });
 
     // Cloze: word bank (shuffled), check, reset, solutions.
     var inputs = Array.prototype.slice.call(document.querySelectorAll("#cloze input[data-a]"));
