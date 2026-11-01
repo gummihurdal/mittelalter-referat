@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mittelalter Infoblatt</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+  /* Layout: a reading column shaped like a printed sheet; rubricated (red) initials and marginal notes as in a manuscript. */
+  :root {
+    --paper: #fbfaf6;
+    --sheet: #ffffff;
+    --ink: #1c1b18;
+    --ink-soft: #55524a;
+    --rule: #d9d4c7;
+    --rubric: #a2231d;      /* rubrication red: the red of medieval initials */
+    --azure: #1f3f6b;       /* lapis blue of illuminated margins */
+    --gold: #b58a2b;
+    --tint: #f1eee6;
+    --ok: #2a6b3c;
+    --ok-bg: #e4f1e7;
+    --bad: #9b2b2b;
+    --bad-bg: #f6e3e3;
+    --display: "EB Garamond", "Garamond", "Times New Roman", serif;
+    --body: "Source Sans 3", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #16171a; --sheet: #1f2024; --ink: #ece8df; --ink-soft: #b3ada0; --rule: #3a3b40;
+      --rubric: #e06a62; --azure: #8fb3e6; --gold: #d8b05a; --tint: #2a2b31;
+      --ok: #8fd3a3; --ok-bg: #203327; --bad: #f0a0a0; --bad-bg: #3a2222; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #16171a; --sheet: #1f2024; --ink: #ece8df; --ink-soft: #b3ada0; --rule: #3a3b40;
+    --rubric: #e06a62; --azure: #8fb3e6; --gold: #d8b05a; --tint: #2a2b31;
+    --ok: #8fd3a3; --ok-bg: #203327; --bad: #f0a0a0; --bad-bg: #3a2222; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 0 48px; margin: 0;
+  }
+  a { color: var(--azure); }
+  .topbar { max-width: 860px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-block: 18px 10px; }
+  .brand { font-family: var(--display); font-size: 1.05rem; letter-spacing: .02em; color: var(--ink-soft); }
+  .brand b { color: var(--ink); font-weight: 600; }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tabs a { text-decoration: none; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--rule); color: var(--ink-soft); font-weight: 600; font-size: .9rem; }
+  .tabs a[aria-current="page"] { background: var(--azure); border-color: var(--azure); color: var(--sheet); }
+  .tabs a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .sheet { max-width: 860px; margin: 0 auto; background: var(--sheet); border: 1px solid var(--rule); border-radius: 4px; padding: clamp(20px, 4vw, 48px) clamp(18px, 5vw, 60px); box-shadow: 0 1px 0 var(--rule); }
+  .sheet + .sheet { margin-top: 24px; }
+  .head { display: grid; grid-template-columns: 1fr auto; gap: 12px 24px; align-items: end; border-bottom: 2px solid var(--ink); padding-bottom: 14px; margin-bottom: 22px; }
+  .eyebrow { font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--rubric); font-weight: 700; }
+  h1 { font-family: var(--display); font-weight: 500; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; margin: 4px 0 0; text-wrap: balance; }
+  .meta { text-align: right; font-size: .85rem; color: var(--ink-soft); line-height: 1.4; }
+  .meta .names { font-family: var(--display); font-size: 1rem; color: var(--ink); font-style: italic; }
+  @media (max-width: 560px) { .head { grid-template-columns: 1fr; } .meta { text-align: left; } }
+  h2 { font-family: var(--display); font-weight: 600; font-size: 1.45rem; margin: 30px 0 8px; color: var(--azure); text-wrap: balance; display: flex; align-items: baseline; gap: 10px; }
+  h2 .num { font-family: var(--display); font-weight: 400; color: var(--rubric); font-size: 1.05rem; min-width: 1.6em; }
+  h3 { font-family: var(--body); font-size: .98rem; font-weight: 700; margin: 14px 0 4px; color: var(--ink); }
+  p { margin: 6px 0; max-width: 68ch; }
+  ul { margin: 4px 0 8px; padding-left: 1.2em; max-width: 72ch; }
+  li { margin: 3px 0; }
+  .lead { font-family: var(--display); font-size: 1.12rem; line-height: 1.5; color: var(--ink-soft); max-width: 66ch; }
+  .initial::first-letter { font-family: var(--display); color: var(--rubric); font-size: 3.1em; float: left; line-height: .8; padding: 6px 8px 0 0; font-weight: 500; }
+  .epochs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 12px 0 4px; }
+  @media (max-width: 640px) { .epochs { grid-template-columns: 1fr; } }
+  .epoch { border: 1px solid var(--rule); border-top: 4px solid var(--azure); padding: 10px 12px; background: var(--tint); min-width: 0; }
+  .epoch:nth-child(2) { border-top-color: var(--rubric); }
+  .epoch:nth-child(3) { border-top-color: var(--gold); }
+  .epoch .t { font-family: var(--display); font-size: 1.15rem; font-weight: 600; }
+  .epoch .y { font-size: .8rem; color: var(--ink-soft); letter-spacing: .04em; }
+  .epoch ul { font-size: .92rem; padding-left: 1.05em; margin-top: 6px; }
+  .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 28px; }
+  @media (max-width: 640px) { .two { grid-template-columns: 1fr; } }
+  .two > div { min-width: 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .93rem; margin: 8px 0; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-weight: 700; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+  .tbl { overflow-x: auto; }
+  .ladder { list-style: none; padding: 0; margin: 10px 0; display: grid; gap: 4px; }
+  .ladder li { padding: 8px 12px; border-left: 4px solid var(--azure); background: var(--tint); font-size: .95rem; }
+  .ladder li:nth-child(2) { margin-left: 5%; border-left-color: var(--gold); }
+  .ladder li:nth-child(3) { margin-left: 10%; border-left-color: var(--rubric); }
+  .ladder li:nth-child(4) { margin-left: 15%; border-left-color: var(--ink-soft); }
+  .ladder b { font-weight: 700; }
+  .mhd { font-family: var(--display); font-style: italic; }
+  .note { border-left: 3px solid var(--gold); padding: 6px 12px; background: var(--tint); font-size: .92rem; color: var(--ink-soft); margin: 10px 0; max-width: 72ch; }
+  .vers { font-family: var(--display); font-style: italic; font-size: 1.08rem; padding: 8px 16px; border-left: 3px solid var(--rubric); margin: 8px 0; color: var(--ink); max-width: 60ch; }
+  .foot { margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--rule); font-size: .8rem; color: var(--ink-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  /* Lückentext */
+  .worksheet p { font-size: 1.06rem; line-height: 2.1; max-width: 100%; }
+  .gap { display: inline-flex; align-items: baseline; gap: 4px; }
+  .gap input { font: inherit; font-family: var(--display); font-size: 1.05rem; color: var(--ink); background: transparent; border: 0; border-bottom: 2px solid var(--azure); width: 11ch; padding: 0 4px; text-align: center; }
+  .gap input:focus-visible { outline: none; border-bottom-color: var(--gold); background: var(--tint); }
+  .gap sup { font-size: .68rem; color: var(--rubric); font-weight: 700; }
+  .gap input.ok { border-bottom-color: var(--ok); background: var(--ok-bg); }
+  .gap input.bad { border-bottom-color: var(--bad); background: var(--bad-bg); }
+  .bank { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 18px; }
+  .bank span { font-family: var(--display); font-size: 1rem; padding: 3px 10px; border: 1px solid var(--rule); border-radius: 999px; background: var(--tint); }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 18px 0 6px; }
+  button { font: inherit; font-weight: 600; font-size: .92rem; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--azure); background: var(--azure); color: var(--sheet); cursor: pointer; }
+  button.secondary { background: transparent; color: var(--azure); }
+  button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .score { font-weight: 600; color: var(--ink-soft); }
+  .solutions { margin-top: 14px; }
+  .solutions ol { columns: 2; column-gap: 32px; padding-left: 1.4em; font-size: .95rem; }
+  @media (max-width: 560px) { .solutions ol { columns: 1; } }
+  .solutions li { break-inside: avoid; }
+  .solutions b { font-family: var(--display); font-size: 1.05rem; font-weight: 600; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .topbar, .toolbar { display: none; }
+    .sheet { border: 0; box-shadow: none; max-width: none; padding: 0; }
+    .view[hidden] { display: block !important; }
+    .sheet { page-break-after: always; }
+    .solutions { page-break-before: always; }
+  }
+  @media (prefers-reduced-motion: no-preference) { .gap input { transition: background .15s, border-color .15s; } }
+</style>
+</head>
+<body>
+
+<nav class="topbar" aria-label="Seiten">
+  <div class="brand"><b>Mittelalter</b> · Deutsch-Referat · Materialien</div>
+  <div class="tabs">
+    <a href="#infoblatt" id="tab-infoblatt">Infoblatt</a>
+    <a href="#lueckentext" id="tab-lueckentext">Lückentext</a>
+  </div>
+</nav>
+
+<!-- ───────────────────────────── INFOBLATT ───────────────────────────── -->
+<article class="view sheet" id="view-infoblatt">
+  <header class="head">
+    <div>
+      <div class="eyebrow">Infoblatt · Deutsch</div>
+      <h1>Das Mittelalter</h1>
+      <p class="lead">Epochen, Sprache, Gesellschaft, Rittertum und die großen Texte: Merseburger Zaubersprüche, Hildebrandslied, Nibelungenlied, Parzival, Minnesang und der Ackermann aus Böhmen.</p>
+    </div>
+    <div class="meta">
+      <div class="names">Luisa Göbl · Freya Gartler<br>Sarah Thordarson · Noemi Fink</div>
+      <div>Zusammenfassung des Referats</div>
+    </div>
+  </header>
+
+  <h2><span class="num">I</span>Die drei Epochen</h2>
+  <p class="initial">Das Mittelalter wird in drei Abschnitte eingeteilt. Jeder Abschnitt hat seine eigene Sprachstufe, seine eigenen Träger der Kultur und seine eigenen Texte.</p>
+  <div class="epochs">
+    <div class="epoch">
+      <div class="t">Frühmittelalter</div>
+      <div class="y">ca. 500 – 1050 n. Chr.</div>
+      <ul>
+        <li>Sprache: <b>Althochdeutsch</b> (AHD)</li>
+        <li>Erste schriftliche Zeugnisse entstehen</li>
+        <li>Klöster sind die Zentren der Schriftkultur</li>
+        <li>Karl der Große</li>
+        <li>Hildebrandslied</li>
+      </ul>
+    </div>
+    <div class="epoch">
+      <div class="t">Hochmittelalter</div>
+      <div class="y">1050 – 1250 n. Chr.</div>
+      <ul>
+        <li>Sprache: <b>Mittelhochdeutsch</b> (MHD)</li>
+        <li>Die höfische Kultur entwickelt sich</li>
+        <li>Ritter, Adel und Kirche prägen die Gesellschaft</li>
+        <li>Nibelungenlied, Parzival, Minnesang</li>
+      </ul>
+    </div>
+    <div class="epoch">
+      <div class="t">Spätmittelalter</div>
+      <div class="y">1250 – 1500 n. Chr.</div>
+      <ul>
+        <li>Sprache: <b>Frühneuhochdeutsch</b> (FNHD), Übergang zum Neuhochdeutschen</li>
+        <li>Städte und Bürgertum gewinnen an Bedeutung</li>
+        <li>Kultur wird von Adel und Bürgertum getragen</li>
+        <li>Kaiser Maximilian I.; Der Ackermann aus Böhmen</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2><span class="num">II</span>Herrscher</h2>
+  <p>Könige und Kaiser hatten großen Einfluss auf Politik, Kriege und die Entwicklung ihrer Reiche.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Herrscher</th><th>Lebenszeit</th><th>Bedeutung</th></tr></thead>
+    <tbody>
+      <tr><td>Karl der Große</td><td>747 – 814</td><td>Frühmittelalter; Klöster und Schriftkultur</td></tr>
+      <tr><td>Otto I.</td><td>912 – 973</td><td>Kaiser des Frühmittelalters</td></tr>
+      <tr><td>Friedrich I. Barbarossa</td><td>ca. 1122 – 1190</td><td>Blütezeit des Rittertums (1152 – 1190)</td></tr>
+      <tr><td>Rudolf I. von Habsburg</td><td>1218 – 1291</td><td>Spätmittelalter</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2><span class="num">III</span>Sprachliche Veränderungen</h2>
+  <div class="two">
+    <div>
+      <h3>1. Lautverschiebung</h3>
+      <p>Fand <b>vor</b> dem Mittelalter statt. Sie veränderte Laute der indogermanischen Sprache und führte zu den typischen Merkmalen der germanischen Sprachen.</p>
+    </div>
+    <div>
+      <h3>2. Lautverschiebung</h3>
+      <p>Im <b>5. Jahrhundert</b>. Sie betraf vor allem die deutschen Hochdialekte und trennt das Deutsche von den anderen germanischen Sprachen.</p>
+    </div>
+  </div>
+  <p class="note">Sprachstufen in der Reihenfolge: Althochdeutsch → Mittelhochdeutsch → Frühneuhochdeutsch → Neuhochdeutsch.</p>
+
+  <h2><span class="num">IV</span>Gesellschaftsordnung und Feudalsystem</h2>
+  <p><b>Dreiständegesellschaft:</b> Ritterschaft (<i>Wehrstand</i>), Bauern (<i>Nährstand</i>) und Geistlichkeit (<i>Lehrstand</i>). Die drei Stände waren klar voneinander abgegrenzt, aber aufeinander bezogen.</p>
+  <p><b>Das Feudalsystem:</b> Der König steht an der Spitze und vergibt Lehen oder Ämter. Große Lehensinhaber geben Teile davon gegen vereinbarte Dienstleistungen weiter. Man konnte zugleich Lehensherr und Lehensmann sein.</p>
+  <p class="vers">Kein Lehen ohne Dienst, kein Dienst ohne Lehen.</p>
+  <p>Der Lehensherr soll <span class="mhd">milte</span> (freigebig) sein, der Lehensmann <span class="mhd">triuwe</span> (treu).</p>
+  <h3>Die Stufen der Gesellschaft</h3>
+  <ol class="ladder">
+    <li><b>König:</b> Schutz; vergab Ämter, Grund und Boden</li>
+    <li><b>Kronvasallen:</b> hoher Adel – Herzöge, Grafen, Bischöfe und Reichsäbte</li>
+    <li><b>Aftervasallen:</b> niedriger Adel – Ritter, Äbte und Ministerialen</li>
+    <li><b>Abhängige:</b> leibeigene Bauern, Knechte und Hörige</li>
+  </ol>
+  <p>Untergebene erhielten militärischen Schutz und mussten dafür Kriegsdienst leisten.</p>
+
+  <h2><span class="num">V</span>Die Ritter</h2>
+  <div class="two">
+    <div>
+      <ul>
+        <li>Ritter = gerüsteter Reiter; Kern und Stärke des Heeres</li>
+        <li>Wirtschaftliche Grundlage: Land (Eigentum oder Lehen)</li>
+        <li>Ausbildung: <b>Page</b> (Erziehung am fremden Hof) → <b>Knappe</b> (militärische Ausbildung) → <b>Schwertleite</b> (Ritterschlag)</li>
+        <li>Höfisches Betragen und Musik gehören zur Ausbildung</li>
+        <li>Blütezeit unter Kaiser Friedrich Barbarossa (1152 – 1190)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Ritterliche Werte (Tugenden des höfischen Ritters)</h3>
+      <ul>
+        <li><span class="mhd">êre</span> = ritterliche Ehre</li>
+        <li><span class="mhd">zuht</span> = Selbstdisziplin</li>
+        <li><span class="mhd">mâze</span> = Maßhalten der Leidenschaften</li>
+        <li><span class="mhd">hoher muot</span> = Hochgefühl und Selbstbewusstsein</li>
+        <li><span class="mhd">vröude</span> = Lust am Leben</li>
+        <li><span class="mhd">memento mori</span> = Bewusstsein für Tod und Vergänglichkeit</li>
+      </ul>
+    </div>
+  </div>
+  <p>In den Kreuzzügen entstand ein übernationales Standesbewusstsein: Die Ritter fühlten sich als Streitmacht Gottes.</p>
+  <h3>Ritter und Kultur</h3>
+  <ul>
+    <li>Im 12. Jahrhundert lösen die Ritter das Mönchtum als Träger der Kultur ab</li>
+    <li>Könige und Fürsten errichten Residenzen als Kulturstätten</li>
+    <li>Die höfische Lebensart entwickelte sich zuerst in Frankreich</li>
+    <li>Kulturelle Zentren: Schwaben, Bayern, Ostfranken und Österreich</li>
+  </ul>
+
+  <h2><span class="num">VI</span>Die Rolle der Klöster</h2>
+  <ul>
+    <li>Wichtige Kulturzentren; das Mönchtum war bis zum 12. Jahrhundert Träger der Kultur</li>
+    <li>Die Geistlichkeit war in das Lehenssystem eingebunden: Äbte und Bischöfe waren Lehensmänner des Königs und dem Papst zu Gehorsam verpflichtet</li>
+  </ul>
+  <h3>Benediktinerabtei Fulda</h3>
+  <ul>
+    <li>Benediktiner leben nach der <i>Regula Benedicti</i>: „Bete und arbeite“</li>
+    <li>Abtei = selbstständiges, bedeutendes Kloster; 744 gegründet, verbunden mit Bonifatius</li>
+    <li>Erlernen von Lesen und Schreiben; handgeschriebene Bücher</li>
+  </ul>
+
+  <h2><span class="num">VII</span>Merseburger Zaubersprüche</h2>
+  <p><b>Zeitliche Einordnung:</b> Frühmittelalter (8. – 10. Jh.), eine von der Völkerwanderung geprägte Epoche; spätrömische Kultur trifft auf das Christentum; Klöster als Kulturträger.</p>
+  <p><b>Entstehung:</b> ab dem 8. Jahrhundert in Klöstern aufgeschrieben; Reste heidnisch-germanischer Dichtung. Die Merseburger Zaubersprüche stammen aus dem 10. Jahrhundert und wurden in ein Messbuch in Fulda eingetragen. Sie gelten als die <b>ältesten deutschen Texte</b>. Zaubersprüche kennen alle Kulturvölker.</p>
+  <p><b>Aufbau:</b> Teil 1 <i>Historiola</i> (die erzählte Geschichte), Teil 2 <i>Incantatio</i> (die Zauberformel).</p>
+  <div class="two">
+    <div>
+      <h3>1. Zauberspruch (Lösezauber)</h3>
+      <p>Frauenfiguren agieren auf dem Schlachtfeld. Ziel: die Fesseln von Gefangenen lösen und Feinde lahmlegen.</p>
+    </div>
+    <div>
+      <h3>2. Zauberspruch (Heilungszauber)</h3>
+      <p>Die Götter Vol und Wodan reiten in den Wald; Balders Fohlen verrenkt sich den Fuß. Ziel: Wodan heilt den Fuß.</p>
+      <p class="vers">Bein zu Beinen, Blut zu Blut, Glied zu Gliedern, als ob sie geleimt seien.</p>
+    </div>
+  </div>
+
+  <h2><span class="num">VIII</span>Hildebrandslied</h2>
+  <ul>
+    <li>Einziges erhaltenes Heldenlied der altdeutschen Sprache aus der Welt des Adels</li>
+    <li>Entstanden im 8. Jahrhundert am Hof des Langobardenkönigs; um 810 von zwei Mönchen in Fulda aufgezeichnet</li>
+    <li>Steht auf der ersten und letzten Seite eines lateinischen religiösen Buches</li>
+    <li>Altdeutsch-altsächsische Mischsprache; <b>Stabreim</b></li>
+  </ul>
+  <h3>Historischer Hintergrund und Handlung</h3>
+  <p>Der Waffenmeister Hildebrand floh zu den Hunnen und verließ Frau und neugeborenen Sohn. Nach 30 Jahren kehrt er mit einem Heer zurück und steht seinem erwachsenen Sohn Hadubrand gegenüber. Hildebrand erkennt ihn, doch der Kampf ist unvermeidbar: Die Ehre des Mannes gilt mehr als sein Leben. Die Aufzeichnung bricht nach Vers 67 ab; vermutlich tötet der Vater den Sohn (mögliches Ende: Klage oder Selbstmord des Vaters). Besonderheit des Motivs: Der Vater erkennt den Sohn.</p>
+  <h3>Wandel: „Jüngeres Hildebrandslied“</h3>
+  <p>Eine veränderte Fassung mit christlichem Einfluss und einem christlich-versöhnlichen Weltbild: Vater und Sohn erkennen und vertragen sich. Aus der Geschichte über germanische Kriegerehre wird eine Familiengeschichte.</p>
+
+  <h2><span class="num">IX</span>Nibelungenlied</h2>
+  <div class="two">
+    <div>
+      <ul>
+        <li>Bekanntestes mittelhochdeutsches Heldenepos; Hochmittelalter</li>
+        <li>Verfasser: unbekannter Dichter</li>
+        <li>Siegfried-Sage und Burgunden-Sage sind verbunden</li>
+        <li>Struktur: <b>39 Aventiuren</b></li>
+        <li>Leitmotiv: Liebe muss mit Schmerz bezahlt werden – <span class="mhd">liep</span> (Liebe, Freude) und <span class="mhd">leit</span> (Leid, Schmerz)</li>
+      </ul>
+      <h3>Form und Vortrag</h3>
+      <ul>
+        <li>Fester Rhythmus; Grundschema: 4 Langzeilen im Paarreim (aabb)</li>
+        <li>Jede Langzeile ist durch eine Zäsur in Anvers und Abvers unterteilt</li>
+        <li>Besonderheit: der 4. Abvers hat eine vierte Hebung (betonte Silbe)</li>
+        <li>Vortrag im Mittelalter: musikalisch</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Handlung</h3>
+      <ul>
+        <li>Ritter Siegfried und Prinzessin Kriemhild; erste Begegnung beim Hoffest</li>
+        <li>Kriemhild ist wunderschön „wie das Morgenrot“</li>
+        <li>Siegfried wird auf der Jagd von Hagen von Tronje ermordet</li>
+        <li>Kriemhilds grenzenloser Schmerz: sie schwört eisige Rache</li>
+        <li>Hagens Schuld wird durch das Wiederbluten der Wunden offenbart</li>
+        <li>Kriemhild heiratet den Hunnenkönig und vernichtet Hagen und seine Familie</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2><span class="num">X</span>Parzival – Wolfram von Eschenbach</h2>
+  <div class="two">
+    <div>
+      <h3>Der Autor</h3>
+      <ul>
+        <li>Lebenszeit: ca. 1170 – 1220; Epoche: Mittelalter</li>
+        <li>Herkunft: vermutlich Eschenbach in Franken (heute Bayern)</li>
+        <li>Beruf: Dichter und Minnesänger; Sprache: Mittelhochdeutsch</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Der Ritterroman</h3>
+      <ul>
+        <li>Parzival wächst bei seiner Mutter Herzeloyde im Wald auf</li>
+        <li>Er verlässt die Mutter, um Ritter zu werden, und gelangt an den Hof des Königs Artus</li>
+        <li>Er wird nicht in den Kreis der Artusritter aufgenommen; der welterfahrene Ritter Gurnemanz lehrt ihn</li>
+      </ul>
+    </div>
+  </div>
+  <h3>Die Suche nach dem Heiligen Gral</h3>
+  <p>Parzival findet die Gralsburg und begegnet König Amfortas, stellt aber nicht die entscheidende Frage. Er erkennt seinen Fehler, begibt sich auf die Suche, lernt aus seinen Erlebnissen und spricht mit Trevrizent. Am Ende erlöst er Amfortas und wird selbst Gralskönig.</p>
+
+  <h2><span class="num">XI</span>Minnesang</h2>
+  <ul>
+    <li>Großer Teil der mittelhochdeutschen Lyrik; vor der Hofgesellschaft vorgesungen, begleitet auf Geige oder Laute</li>
+    <li>Öffentliche Liebesbotschaft und Bestandteil des geselligen Hoflebens</li>
+    <li>Ursprung: 12./13. Jahrhundert in der Provence; Vortragende: Troubadours, fahrende Sänger und Dichter</li>
+  </ul>
+  <div class="two">
+    <div>
+      <h3>Hohe Minne</h3>
+      <p>Verehrung einer hochgestellten, unerreichbaren Dame, die meist anwesend ist. Lob ihrer Vollkommenheit und Schönheit; der Ritter klagt, weil die Liebe unerwidert bleibt.</p>
+    </div>
+    <div>
+      <h3>Ebene Minne</h3>
+      <p>Walther von der Vogelweide, der bedeutendste Vertreter der Hohen Minne, lehnte sich gegen sie auf und stellte dem Traurigsein die wechselseitige, erfüllte Liebe entgegen.</p>
+    </div>
+  </div>
+  <h3>Liedformen des Minnesangs</h3>
+  <ul>
+    <li><b>Tagelied:</b> der Abschied der Liebenden nach einer unerlaubten Liebesnacht</li>
+    <li><b>Botenlied:</b> ein Bote tritt als Vermittler zwischen den Liebenden auf</li>
+    <li><b>Frauenstrophen:</b> aus Sicht der angebeteten Frau, die den Konventionen folgt und den Liebenden zurückweist</li>
+    <li><b>Wechsel:</b> abwechselnde Strophen von Mann und Frau ohne direkte Kommunikation</li>
+  </ul>
+
+  <h2><span class="num">XII</span>Der Ackermann aus Böhmen – Johannes von Tepl</h2>
+  <div class="two">
+    <div>
+      <h3>Der Autor</h3>
+      <ul>
+        <li>Lebenszeit: ca. 1350 – 1414/1415; Epoche: Spätmittelalter</li>
+        <li>Herkunft: Böhmen (heutiges Tschechien)</li>
+        <li>Beruf: Schriftsteller, Stadtschreiber und Notar; Sprachen: Deutsch und Latein</li>
+        <li>Erlebnishintergrund: der Tod seiner Frau bei einer Geburt</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Warum der Text bedeutend ist</h3>
+      <p>Sprachlich und inhaltlich modern und authentisch; inhaltlich betritt er Neuland: Das Menschenbild des Mittelalters wird dem Menschenbild der Neuzeit gegenübergestellt. Der <b>Tod</b> steht für die Ansicht des ausgehenden Mittelalters, der <b>Ackermann</b> für die Ansicht der beginnenden Neuzeit.</p>
+    </div>
+  </div>
+  <h3>Inhalt in vier Textstellen</h3>
+  <ol>
+    <li>Der Ackermann trauert um seine verstorbene Frau und klagt den Tod an.</li>
+    <li>Der Tod verteidigt sich und hält die Vorwürfe für ungerecht.</li>
+    <li>Der Tod erklärt: Alle Menschen müssen sterben, unabhängig von Reichtum oder Stand.</li>
+    <li>Der Ackermann kritisiert den Tod weiterhin als grausam und ungerecht.</li>
+  </ol>
+
+  <footer class="foot">
+    <span>Infoblatt zum Referat „Mittelalter“ · Luisa Göbl, Freya Gartler, Sarah Thordarson, Noemi Fink</span>
+    <span>Deutsch</span>
+  </footer>
+</article>
+
+<!-- ───────────────────────────── LÜCKENTEXT ───────────────────────────── -->
+<article class="view sheet worksheet" id="view-lueckentext" hidden>
+  <header class="head">
+    <div>
+      <div class="eyebrow">Arbeitsblatt · Lückentext</div>
+      <h1>Das Mittelalter</h1>
+      <p class="lead">Setze die passenden Wörter aus dem Wortkasten in die Lücken ein. Jedes Wort passt genau einmal.</p>
+    </div>
+    <div class="meta">
+      <div class="names">Luisa Göbl · Freya Gartler<br>Sarah Thordarson · Noemi Fink</div>
+      <div>Name: ______________________ · Datum: __________</div>
+    </div>
+  </header>
+
+  <h3>Wortkasten</h3>
+  <div class="bank" id="bank" aria-label="Wortkasten"></div>
+
+  <form id="cloze" autocomplete="off">
+    <p>Das Mittelalter wird in drei Epochen eingeteilt. Das <span class="gap"><input id="g1" data-a="Frühmittelalter" aria-label="Lücke 1"><sup>1</sup></span> (ca. 500 – 1050) ist die Zeit des Althochdeutschen; die <span class="gap"><input id="g2" data-a="Klöster" aria-label="Lücke 2"><sup>2</sup></span> waren die wichtigsten Zentren der Schriftkultur. Im Hochmittelalter (1050 – 1250) sprach man <span class="gap"><input id="g3" data-a="Mittelhochdeutsch" aria-label="Lücke 3" style="width:16ch"><sup>3</sup></span>, und die höfische Kultur entwickelte sich. Im Spätmittelalter (1250 – 1500) gewannen die <span class="gap"><input id="g4" data-a="Städte" aria-label="Lücke 4"><sup>4</sup></span> und das Bürgertum an Bedeutung.</p>
+
+    <p>Die Gesellschaft bestand aus drei Ständen: der Ritterschaft, den Bauern und der <span class="gap"><input id="g5" data-a="Geistlichkeit" aria-label="Lücke 5" style="width:13ch"><sup>5</sup></span>. Im Feudalsystem stand der <span class="gap"><input id="g6" data-a="König" aria-label="Lücke 6"><sup>6</sup></span> an der Spitze und vergab Lehen und Ämter. Der Grundsatz lautete: „Kein <span class="gap"><input id="g7" data-a="Lehen" aria-label="Lücke 7"><sup>7</sup></span> ohne Dienst, kein Dienst ohne Lehen.“</p>
+
+    <p>Ein Ritter war ein gerüsteter <span class="gap"><input id="g8" data-a="Reiter" aria-label="Lücke 8"><sup>8</sup></span>. Seine Ausbildung begann als Page, dann wurde er <span class="gap"><input id="g9" data-a="Knappe" aria-label="Lücke 9"><sup>9</sup></span>, und mit der Schwertleite erhielt er den Ritterschlag. Zu den ritterlichen Werten gehörten <span class="mhd">êre</span> (Ehre), <span class="mhd">zuht</span> (Selbstdisziplin) und <span class="mhd">mâze</span>, das <span class="gap"><input id="g10" data-a="Maßhalten" aria-label="Lücke 10"><sup>10</sup></span> der Leidenschaften. Das Rittertum erlebte seine Blütezeit unter Kaiser Friedrich <span class="gap"><input id="g11" data-a="Barbarossa" aria-label="Lücke 11"><sup>11</sup></span>.</p>
+
+    <p>Die Merseburger Zaubersprüche gelten als die ältesten <span class="gap"><input id="g12" data-a="deutschen" aria-label="Lücke 12"><sup>12</sup></span> Texte. Sie wurden im 10. Jahrhundert in ein Messbuch in <span class="gap"><input id="g13" data-a="Fulda" aria-label="Lücke 13"><sup>13</sup></span> eingetragen. Im zweiten Spruch heilt der Gott <span class="gap"><input id="g14" data-a="Wodan" aria-label="Lücke 14"><sup>14</sup></span> den Fuß von Balders Fohlen.</p>
+
+    <p>Das <span class="gap"><input id="g15" data-a="Hildebrandslied" aria-label="Lücke 15" style="width:15ch"><sup>15</sup></span> ist das einzige erhaltene Heldenlied der altdeutschen Sprache. Darin steht der Vater Hildebrand nach 30 Jahren seinem Sohn <span class="gap"><input id="g16" data-a="Hadubrand" aria-label="Lücke 16"><sup>16</sup></span> gegenüber. Das Nibelungenlied erzählt von Siegfried und Kriemhild; Siegfried wird von <span class="gap"><input id="g17" data-a="Hagen" aria-label="Lücke 17"><sup>17</sup></span> von Tronje ermordet. Im Ritterroman „Parzival“ von Wolfram von Eschenbach wird Parzival am Ende <span class="gap"><input id="g18" data-a="Gralskönig" aria-label="Lücke 18"><sup>18</sup></span>.</p>
+
+    <p>Der Minnesang wurde vor der Hofgesellschaft vorgesungen. Walther von der <span class="gap"><input id="g19" data-a="Vogelweide" aria-label="Lücke 19"><sup>19</sup></span> stellte der Hohen Minne die erfüllte Liebe entgegen. Im Spätmittelalter schrieb Johannes von Tepl den „Ackermann aus Böhmen“, ein Streitgespräch zwischen dem Ackermann und dem <span class="gap"><input id="g20" data-a="Tod" aria-label="Lücke 20"><sup>20</sup></span>.</p>
+
+    <div class="toolbar">
+      <button type="submit" id="check">Antworten prüfen</button>
+      <button type="button" class="secondary" id="reset">Zurücksetzen</button>
+      <button type="button" class="secondary" id="toggle-sol" aria-expanded="false" aria-controls="solutions">Lösungen anzeigen</button>
+      <span class="score" id="score" aria-live="polite"></span>
+    </div>
+  </form>
+
+  <section class="solutions" id="solutions" hidden>
+    <h3>Lösungen</h3>
+    <ol id="sol-list"></ol>
+  </section>
+
+  <footer class="foot">
+    <span>Lückentext zum Referat „Mittelalter“ · Luisa Göbl, Freya Gartler, Sarah Thordarson, Noemi Fink</span>
+    <span>20 Lücken</span>
+  </footer>
+</article>
+
+<script>
+  (function () {
+    // Views on the hash: #infoblatt (start) and #lueckentext.
+    var views = { infoblatt: document.getElementById("view-infoblatt"), lueckentext: document.getElementById("view-lueckentext") };
+    function show() {
+      var h = (location.hash || "#infoblatt").slice(1);
+      if (!views[h]) h = "infoblatt";
+      Object.keys(views).forEach(function (k) {
+        views[k].hidden = k !== h;
+        document.getElementById("tab-" + k).setAttribute("aria-current", k === h ? "page" : "false");
+      });
+    }
+    window.addEventListener("hashchange", show);
+    show();
+
+    // Cloze: word bank (shuffled), check, reset, solutions.
+    var inputs = Array.prototype.slice.call(document.querySelectorAll("#cloze input[data-a]"));
+    var words = inputs.map(function (i) { return i.dataset.a; });
+    var shuffled = words.slice();
+    for (var i = shuffled.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = t; }
+    var bank = document.getElementById("bank");
+    shuffled.forEach(function (w) { var s = document.createElement("span"); s.textContent = w; bank.appendChild(s); });
+    var sol = document.getElementById("sol-list");
+    inputs.forEach(function (inp, n) { var li = document.createElement("li"); li.innerHTML = "<b></b>"; li.firstChild.textContent = inp.dataset.a; sol.appendChild(li); });
+
+    var norm = function (s) { return (s || "").trim().toLowerCase().replace(/\s+/g, " "); };
+    var score = document.getElementById("score");
+    document.getElementById("cloze").addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var right = 0;
+      inputs.forEach(function (inp) {
+        var ok = norm(inp.value) === norm(inp.dataset.a);
+        inp.classList.toggle("ok", ok);
+        inp.classList.toggle("bad", !ok && inp.value.trim() !== "");
+        if (ok) right++;
+      });
+      score.textContent = right + " von " + inputs.length + " richtig" + (right === inputs.length ? " – sehr gut!" : "");
+    });
+    document.getElementById("reset").addEventListener("click", function () {
+      inputs.forEach(function (inp) { inp.value = ""; inp.classList.remove("ok", "bad"); });
+      score.textContent = "";
+    });
+    var solBox = document.getElementById("solutions"), tog = document.getElementById("toggle-sol");
+    tog.addEventListener("click", function () {
+      var open = solBox.hidden;
+      solBox.hidden = !open;
+      tog.setAttribute("aria-expanded", String(open));
+      tog.textContent = open ? "Lösungen verbergen" : "Lösungen anzeigen";
+    });
+  })();
+</script>
+</body>
+</html>
