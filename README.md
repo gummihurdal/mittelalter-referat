@@ -1,5 +1,7 @@
 # Mittelalter – Deutsch-Referat
 
+**Webseite:** https://gummihurdal.github.io/mittelalter-referat/
+
 Materialien zum Referat **„Mittelalter“** von **Luisa Göbl, Freya Gartler, Sarah Thordarson und Noemi Fink**.
 
 | Datei | Inhalt |
@@ -7,10 +9,12 @@ Materialien zum Referat **„Mittelalter“** von **Luisa Göbl, Freya Gartler, 
 | [`Infoblatt.md`](Infoblatt.md) | Die wichtigsten Informationen der Präsentation, zusammengefasst in zwölf Abschnitten |
 | [`Lueckentext.md`](Lueckentext.md) | Einfacher Lückentext zum Thema Mittelalter (20 Lücken, mit Wortkasten) |
 | [`Loesungen.md`](Loesungen.md) | Lösungen zum Lückentext |
+| [`Mittelalter_Infoblatt.pdf`](Mittelalter_Infoblatt.pdf) | Infoblatt als PDF (A4, druckfertig) |
+| [`Mittelalter_Lueckentext.pdf`](Mittelalter_Lueckentext.pdf) | Lückentext als PDF (A4, zum Ausfüllen) |
+| [`Mittelalter_Loesungen.pdf`](Mittelalter_Loesungen.pdf) | Lösungen als PDF |
 | [`index.html`](index.html) | Beides als eine Webseite: Infoblatt, Lückentext mit Selbstkontrolle und einklappbaren Lösungen, druckbar |
 
-Die Webseite kann direkt im Browser geöffnet werden (Datei herunterladen und doppelklicken) oder über GitHub Pages veröffentlicht werden
-(Settings → Pages → Branch `main`, Ordner `/ (root)`).
+Die Webseite ist unter https://gummihurdal.github.io/mittelalter-referat/ veröffentlicht; `index.html` kann auch heruntergeladen und direkt im Browser geöffnet werden.
 
 ## Inhalt des Infoblatts
 
