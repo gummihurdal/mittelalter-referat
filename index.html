@@ -117,6 +117,39 @@
   .pdfbtn { text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--rubric); background: var(--rubric); color: #fff; font-weight: 600; font-size: .9rem; cursor: pointer; font-family: var(--body); }
   .pdfbtn.print { background: transparent; color: var(--rubric); }
   .pdfbtn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  .hero { margin: 0 0 8px; }
+  .hero img { width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 4px; }
+  .hero figcaption { font-family: var(--display); font-size: 1.08rem; color: var(--ink-soft); margin-top: 10px; max-width: 70ch; }
+  .slide { display: grid; grid-template-columns: minmax(0, 46fr) minmax(0, 54fr); gap: 20px 28px; align-items: start; margin: 18px 0 26px; break-inside: avoid; page-break-inside: avoid; }
+  .slide img { width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .slide figcaption { min-width: 0; }
+  .slide .fn { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--rubric); font-weight: 700; }
+  .slide h3 { font-family: var(--display); font-size: 1.25rem; font-weight: 600; margin: 2px 0 6px; color: var(--ink); text-wrap: balance; }
+  .slide p { margin: 0; max-width: 60ch; font-size: .98rem; line-height: 1.55; }
+  @media (max-width: 640px) { .slide { grid-template-columns: 1fr; gap: 10px; } }
+
+  /* One A4 sheet, like the examples: a header band, a big title, short numbered sections in two columns. */
+  .a4 { max-width: 210mm; margin: 0 auto; background: var(--sheet); border: 1px solid var(--rule); padding: 12mm 14mm 10mm; font-size: 13.2px; line-height: 1.42; color: var(--ink); }
+  .a4 .band { display: flex; justify-content: space-between; background: var(--azure); color: #fff; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 10.5px; padding: 6px 12px; margin: 0 0 14px; }
+  .a4-head { display: grid; grid-template-columns: 1fr 72mm; gap: 10px 16px; align-items: start; border-bottom: 2px solid var(--ink); padding-bottom: 8px; margin-bottom: 8px; }
+  .a4 h1 { font-family: var(--display); font-weight: 500; font-size: 40px; line-height: 1; margin: 2px 0 4px; }
+  .a4 .sub { color: var(--ink-soft); font-size: 13px; max-width: 60ch; }
+  .a4 .names { font-family: var(--display); font-style: italic; font-size: 14.5px; margin-top: 6px; }
+  .a4 .pic { width: 100%; height: auto; border: 1px solid var(--rule); }
+  .a4 .nameline { font-size: 13px; text-align: right; line-height: 2; }
+  .a4 .cols { columns: 2; column-gap: 7mm; }
+  .a4 section { break-inside: avoid; margin-bottom: 9px; }
+  .a4 h2 { font-family: var(--body); font-size: 13.4px; font-weight: 700; color: var(--rubric); margin: 0 0 1px; display: block; }
+  .a4 p { margin: 0; max-width: none; }
+  .a4-foot { display: flex; justify-content: space-between; border-top: 1px solid var(--rule); margin-top: 12px; padding-top: 6px; font-size: 10.5px; color: var(--ink-soft); }
+  .a4.worksheet .bank { border: 1.5px solid var(--ink); padding: 8px 12px; margin: 0 0 10px; gap: 4px 14px; }
+  .a4.worksheet .bank span { border: 0; background: transparent; padding: 0; font-size: 14px; }
+  .a4.worksheet p { font-size: 13.4px; line-height: 2.05; margin: 0 0 7px; }
+  .a4.worksheet .gap input { font-size: 13px; width: 10ch; }
+  .a4.worksheet .toolbar { margin: 8px 0 2px; }
+  .a4.worksheet .solutions ol { font-size: 10.5px; }
+  @media (max-width: 640px) { .a4 { padding: 14px; font-size: 12px; } .a4 .cols { columns: 1; } .a4-head { grid-template-columns: 1fr; } .a4 .pic { max-width: 240px; } .a4 .nameline { text-align: left; } }
   @media print {
     .pdfbar { display: none; }
     body { background: #fff; padding: 0; }
@@ -124,6 +157,10 @@
     .sheet { border: 0; box-shadow: none; max-width: none; padding: 0; }
     .view[hidden] { display: block !important; }
     .sheet { page-break-after: always; }
+    .a4 { border: 0; padding: 0; max-width: none; page-break-after: always; }
+    .a4.worksheet .gap input { border-bottom: 1.5px solid #000; }
+    .slide { grid-template-columns: 46fr 54fr; }
+    .slide img, .hero img { box-shadow: none; }
     .solutions { page-break-before: always; }
   }
   @media (prefers-reduced-motion: no-preference) { .gap input { transition: background .15s, border-color .15s; } }
@@ -134,8 +171,9 @@
 <nav class="topbar" aria-label="Seiten">
   <div class="brand"><b>Mittelalter</b> · Deutsch-Referat · Materialien</div>
   <div class="tabs">
-    <a href="#infoblatt" id="tab-infoblatt">Infoblatt</a>
-    <a href="#lueckentext" id="tab-lueckentext">Lückentext</a>
+    <a href="#infoblatt" id="tab-infoblatt">Infoblatt (A4)</a>
+    <a href="#lueckentext" id="tab-lueckentext">Lückentext (A4)</a>
+    <a href="#bildausgabe" id="tab-bildausgabe">Bildausgabe</a>
   </div>
 </nav>
 <div class="pdfbar" aria-label="Als PDF speichern oder drucken">
@@ -143,295 +181,64 @@
   <a class="pdfbtn" href="Mittelalter_Infoblatt.pdf" download>Infoblatt (PDF)</a>
   <a class="pdfbtn" href="Mittelalter_Lueckentext.pdf" download>Lückentext (PDF)</a>
   <a class="pdfbtn" href="Mittelalter_Loesungen.pdf" download>Lösungen (PDF)</a>
+  <a class="pdfbtn" href="Mittelalter_Bildausgabe.pdf" download>Bildausgabe (PDF, 10 Seiten)</a>
   <button type="button" class="pdfbtn print" id="print-page">Drucken</button>
 </div>
 
 <!-- ───────────────────────────── INFOBLATT ───────────────────────────── -->
-<article class="view sheet" id="view-infoblatt">
-  <header class="head">
+<article class="view a4" id="view-infoblatt">
+  <div class="band"><span>Deutsch · Referat Mittelalter</span><span>Infoblatt</span></div>
+  <div class="a4-head">
     <div>
-      <div class="eyebrow">Infoblatt · Deutsch</div>
       <h1>Das Mittelalter</h1>
-      <p class="lead">Epochen, Sprache, Gesellschaft, Rittertum und die großen Texte: Merseburger Zaubersprüche, Hildebrandslied, Nibelungenlied, Parzival, Minnesang und der Ackermann aus Böhmen.</p>
+      <div class="sub">ca. 500 – 1500 n. Chr. · Zusammenfassung der Präsentation</div>
+      <div class="names">Luisa Göbl · Freya Gartler · Sarah Thordarson · Noemi Fink</div>
     </div>
-    <div class="meta">
-      <div class="names">Luisa Göbl · Freya Gartler<br>Sarah Thordarson · Noemi Fink</div>
-      <div>Zusammenfassung des Referats</div>
-    </div>
-  </header>
-
-  <h2><span class="num">I</span>Die drei Epochen</h2>
-  <p class="initial">Das Mittelalter wird in drei Abschnitte eingeteilt. Jeder Abschnitt hat seine eigene Sprachstufe, seine eigenen Träger der Kultur und seine eigenen Texte.</p>
-  <div class="epochs">
-    <div class="epoch">
-      <div class="t">Frühmittelalter</div>
-      <div class="y">ca. 500 – 1050 n. Chr.</div>
-      <ul>
-        <li>Sprache: <b>Althochdeutsch</b> (AHD)</li>
-        <li>Erste schriftliche Zeugnisse entstehen</li>
-        <li>Klöster sind die Zentren der Schriftkultur</li>
-        <li>Karl der Große</li>
-        <li>Hildebrandslied</li>
-      </ul>
-    </div>
-    <div class="epoch">
-      <div class="t">Hochmittelalter</div>
-      <div class="y">1050 – 1250 n. Chr.</div>
-      <ul>
-        <li>Sprache: <b>Mittelhochdeutsch</b> (MHD)</li>
-        <li>Die höfische Kultur entwickelt sich</li>
-        <li>Ritter, Adel und Kirche prägen die Gesellschaft</li>
-        <li>Nibelungenlied, Parzival, Minnesang</li>
-      </ul>
-    </div>
-    <div class="epoch">
-      <div class="t">Spätmittelalter</div>
-      <div class="y">1250 – 1500 n. Chr.</div>
-      <ul>
-        <li>Sprache: <b>Frühneuhochdeutsch</b> (FNHD), Übergang zum Neuhochdeutschen</li>
-        <li>Städte und Bürgertum gewinnen an Bedeutung</li>
-        <li>Kultur wird von Adel und Bürgertum getragen</li>
-        <li>Kaiser Maximilian I.; Der Ackermann aus Böhmen</li>
-      </ul>
-    </div>
+    <img class="pic" src="images/titelbild.jpg" alt="Ritterrüstung" width="616" height="297">
   </div>
-
-  <h2><span class="num">II</span>Herrscher</h2>
-  <p>Könige und Kaiser hatten großen Einfluss auf Politik, Kriege und die Entwicklung ihrer Reiche.</p>
-  <div class="tbl"><table>
-    <thead><tr><th>Herrscher</th><th>Lebenszeit</th><th>Bedeutung</th></tr></thead>
-    <tbody>
-      <tr><td>Karl der Große</td><td>747 – 814</td><td>Frühmittelalter; Klöster und Schriftkultur</td></tr>
-      <tr><td>Otto I.</td><td>912 – 973</td><td>Kaiser des Frühmittelalters</td></tr>
-      <tr><td>Friedrich I. Barbarossa</td><td>ca. 1122 – 1190</td><td>Blütezeit des Rittertums (1152 – 1190)</td></tr>
-      <tr><td>Rudolf I. von Habsburg</td><td>1218 – 1291</td><td>Spätmittelalter</td></tr>
-    </tbody>
-  </table></div>
-
-  <h2><span class="num">III</span>Sprachliche Veränderungen</h2>
-  <div class="two">
-    <div>
-      <h3>1. Lautverschiebung</h3>
-      <p>Fand <b>vor</b> dem Mittelalter statt. Sie veränderte Laute der indogermanischen Sprache und führte zu den typischen Merkmalen der germanischen Sprachen.</p>
-    </div>
-    <div>
-      <h3>2. Lautverschiebung</h3>
-      <p>Im <b>5. Jahrhundert</b>. Sie betraf vor allem die deutschen Hochdialekte und trennt das Deutsche von den anderen germanischen Sprachen.</p>
-    </div>
+  <div class="cols">
+    <section><h2>1. Die drei Epochen</h2>
+      <p><b>Frühmittelalter</b> (500–1050): Althochdeutsch; erste schriftliche Zeugnisse; Klöster als Zentren der Schriftkultur; Karl der Große; Hildebrandslied.<br>
+      <b>Hochmittelalter</b> (1050–1250): Mittelhochdeutsch; höfische Kultur; Ritter, Adel und Kirche prägen die Gesellschaft.<br>
+      <b>Spätmittelalter</b> (1250–1500): Frühneuhochdeutsch; Städte und Bürgertum werden wichtig; Kaiser Maximilian I.</p></section>
+    <section><h2>2. Herrscher</h2>
+      <p>Karl der Große (747–814), Otto I. (912–973), Friedrich I. Barbarossa (ca. 1122–1190), Rudolf I. von Habsburg (1218–1291). Könige und Kaiser bestimmten Politik, Kriege und die Entwicklung ihrer Reiche.</p></section>
+    <section><h2>3. Sprache</h2>
+      <p><b>1. Lautverschiebung</b> (vor dem Mittelalter): Indogermanisch → Germanisch. <b>2. Lautverschiebung</b> (5. Jh.): betraf die deutschen Hochdialekte. Stufen: Althochdeutsch → Mittelhochdeutsch → Frühneuhochdeutsch.</p></section>
+    <section><h2>4. Gesellschaft und Feudalsystem</h2>
+      <p><b>Drei Stände:</b> Ritter (Wehrstand), Bauern (Nährstand), Geistlichkeit (Lehrstand). Der König vergibt Lehen und Ämter: <i>„Kein Lehen ohne Dienst, kein Dienst ohne Lehen.“</i> Stufen: König → Kronvasallen (hoher Adel) → Aftervasallen (Ritter, Äbte) → Abhängige (leibeigene Bauern, Knechte). Untergebene erhielten Schutz und leisteten Kriegsdienst.</p></section>
+    <section><h2>5. Die Ritter</h2>
+      <p>Gerüsteter Reiter, Kern des Heeres; Grundlage ist Land. Ausbildung: Page → Knappe → Schwertleite (Ritterschlag). Werte: <i>êre</i> (Ehre), <i>zuht</i> (Disziplin), <i>mâze</i> (Maß), <i>hoher muot</i>, <i>vröude</i>, <i>memento mori</i>. Blütezeit unter Barbarossa (1152–1190). Ab dem 12. Jh. lösen die Ritter das Mönchtum als Kulturträger ab.</p></section>
+    <section><h2>6. Klöster</h2>
+      <p>Kulturzentren; Mönchtum bis zum 12. Jh. Träger der Kultur; Äbte und Bischöfe sind Lehensmänner des Königs. <b>Fulda:</b> Benediktinerabtei, 744 gegründet (Bonifatius), „Bete und arbeite“; Lesen, Schreiben, handgeschriebene Bücher.</p></section>
+    <section><h2>7. Merseburger Zaubersprüche</h2>
+      <p>Ältester deutscher Text; 10. Jh., Messbuch in Fulda; Reste heidnisch-germanischer Dichtung. Aufbau: Historiola + Incantatio. 1. Spruch: Lösezauber (Fesseln lösen). 2. Spruch: Heilungszauber (Wodan heilt Balders Fohlen).</p></section>
+    <section><h2>8. Hildebrandslied</h2>
+      <p>Einziges erhaltenes althochdeutsches Heldenlied; 8. Jh., um 810 in Fulda aufgezeichnet; Stabreim. Hildebrand kehrt nach 30 Jahren zurück und muss gegen seinen Sohn Hadubrand kämpfen; Ehre gilt mehr als das Leben. Das „Jüngere Hildebrandslied“ endet versöhnlich.</p></section>
+    <section><h2>9. Nibelungenlied</h2>
+      <p>Bekanntestes mittelhochdeutsches Heldenepos, Verfasser unbekannt, 39 Aventiuren, Paarreim. Siegfried wird von Hagen ermordet; Kriemhild nimmt Rache. Leitmotiv: <i>liep</i> und <i>leit</i>, Liebe wird mit Leid bezahlt.</p></section>
+    <section><h2>10. Parzival</h2>
+      <p>Ritterroman von Wolfram von Eschenbach (ca. 1170–1220). Parzival kommt an den Artushof, versäumt auf der Gralsburg die entscheidende Frage, lernt aus seinen Fehlern, erlöst Amfortas und wird Gralskönig.</p></section>
+    <section><h2>11. Minnesang</h2>
+      <p>Höfische Liebeslyrik, gesungen mit Geige oder Laute; Ursprung 12./13. Jh. in der Provence. <b>Hohe Minne:</b> unerreichbare Dame, unerwiderte Liebe. <b>Ebene Minne:</b> Walther von der Vogelweide, erfüllte Liebe. Formen: Tagelied, Botenlied, Frauenstrophen, Wechsel.</p></section>
+    <section><h2>12. Der Ackermann aus Böhmen</h2>
+      <p>Johannes von Tepl (ca. 1350–1414), Spätmittelalter. Streitgespräch: Der Ackermann klagt den Tod an, der Tod verteidigt sich. Mittelalter (Tod) steht gegen Neuzeit (Ackermann).</p></section>
   </div>
-  <p class="note">Sprachstufen in der Reihenfolge: Althochdeutsch → Mittelhochdeutsch → Frühneuhochdeutsch → Neuhochdeutsch.</p>
-
-  <h2><span class="num">IV</span>Gesellschaftsordnung und Feudalsystem</h2>
-  <p><b>Dreiständegesellschaft:</b> Ritterschaft (<i>Wehrstand</i>), Bauern (<i>Nährstand</i>) und Geistlichkeit (<i>Lehrstand</i>). Die drei Stände waren klar voneinander abgegrenzt, aber aufeinander bezogen.</p>
-  <p><b>Das Feudalsystem:</b> Der König steht an der Spitze und vergibt Lehen oder Ämter. Große Lehensinhaber geben Teile davon gegen vereinbarte Dienstleistungen weiter. Man konnte zugleich Lehensherr und Lehensmann sein.</p>
-  <p class="vers">Kein Lehen ohne Dienst, kein Dienst ohne Lehen.</p>
-  <p>Der Lehensherr soll <span class="mhd">milte</span> (freigebig) sein, der Lehensmann <span class="mhd">triuwe</span> (treu).</p>
-  <h3>Die Stufen der Gesellschaft</h3>
-  <ol class="ladder">
-    <li><b>König:</b> Schutz; vergab Ämter, Grund und Boden</li>
-    <li><b>Kronvasallen:</b> hoher Adel – Herzöge, Grafen, Bischöfe und Reichsäbte</li>
-    <li><b>Aftervasallen:</b> niedriger Adel – Ritter, Äbte und Ministerialen</li>
-    <li><b>Abhängige:</b> leibeigene Bauern, Knechte und Hörige</li>
-  </ol>
-  <p>Untergebene erhielten militärischen Schutz und mussten dafür Kriegsdienst leisten.</p>
-
-  <h2><span class="num">V</span>Die Ritter</h2>
-  <div class="two">
-    <div>
-      <ul>
-        <li>Ritter = gerüsteter Reiter; Kern und Stärke des Heeres</li>
-        <li>Wirtschaftliche Grundlage: Land (Eigentum oder Lehen)</li>
-        <li>Ausbildung: <b>Page</b> (Erziehung am fremden Hof) → <b>Knappe</b> (militärische Ausbildung) → <b>Schwertleite</b> (Ritterschlag)</li>
-        <li>Höfisches Betragen und Musik gehören zur Ausbildung</li>
-        <li>Blütezeit unter Kaiser Friedrich Barbarossa (1152 – 1190)</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Ritterliche Werte (Tugenden des höfischen Ritters)</h3>
-      <ul>
-        <li><span class="mhd">êre</span> = ritterliche Ehre</li>
-        <li><span class="mhd">zuht</span> = Selbstdisziplin</li>
-        <li><span class="mhd">mâze</span> = Maßhalten der Leidenschaften</li>
-        <li><span class="mhd">hoher muot</span> = Hochgefühl und Selbstbewusstsein</li>
-        <li><span class="mhd">vröude</span> = Lust am Leben</li>
-        <li><span class="mhd">memento mori</span> = Bewusstsein für Tod und Vergänglichkeit</li>
-      </ul>
-    </div>
-  </div>
-  <p>In den Kreuzzügen entstand ein übernationales Standesbewusstsein: Die Ritter fühlten sich als Streitmacht Gottes.</p>
-  <h3>Ritter und Kultur</h3>
-  <ul>
-    <li>Im 12. Jahrhundert lösen die Ritter das Mönchtum als Träger der Kultur ab</li>
-    <li>Könige und Fürsten errichten Residenzen als Kulturstätten</li>
-    <li>Die höfische Lebensart entwickelte sich zuerst in Frankreich</li>
-    <li>Kulturelle Zentren: Schwaben, Bayern, Ostfranken und Österreich</li>
-  </ul>
-
-  <h2><span class="num">VI</span>Die Rolle der Klöster</h2>
-  <ul>
-    <li>Wichtige Kulturzentren; das Mönchtum war bis zum 12. Jahrhundert Träger der Kultur</li>
-    <li>Die Geistlichkeit war in das Lehenssystem eingebunden: Äbte und Bischöfe waren Lehensmänner des Königs und dem Papst zu Gehorsam verpflichtet</li>
-  </ul>
-  <h3>Benediktinerabtei Fulda</h3>
-  <ul>
-    <li>Benediktiner leben nach der <i>Regula Benedicti</i>: „Bete und arbeite“</li>
-    <li>Abtei = selbstständiges, bedeutendes Kloster; 744 gegründet, verbunden mit Bonifatius</li>
-    <li>Erlernen von Lesen und Schreiben; handgeschriebene Bücher</li>
-  </ul>
-
-  <h2><span class="num">VII</span>Merseburger Zaubersprüche</h2>
-  <p><b>Zeitliche Einordnung:</b> Frühmittelalter (8. – 10. Jh.), eine von der Völkerwanderung geprägte Epoche; spätrömische Kultur trifft auf das Christentum; Klöster als Kulturträger.</p>
-  <p><b>Entstehung:</b> ab dem 8. Jahrhundert in Klöstern aufgeschrieben; Reste heidnisch-germanischer Dichtung. Die Merseburger Zaubersprüche stammen aus dem 10. Jahrhundert und wurden in ein Messbuch in Fulda eingetragen. Sie gelten als die <b>ältesten deutschen Texte</b>. Zaubersprüche kennen alle Kulturvölker.</p>
-  <p><b>Aufbau:</b> Teil 1 <i>Historiola</i> (die erzählte Geschichte), Teil 2 <i>Incantatio</i> (die Zauberformel).</p>
-  <div class="two">
-    <div>
-      <h3>1. Zauberspruch (Lösezauber)</h3>
-      <p>Frauenfiguren agieren auf dem Schlachtfeld. Ziel: die Fesseln von Gefangenen lösen und Feinde lahmlegen.</p>
-    </div>
-    <div>
-      <h3>2. Zauberspruch (Heilungszauber)</h3>
-      <p>Die Götter Vol und Wodan reiten in den Wald; Balders Fohlen verrenkt sich den Fuß. Ziel: Wodan heilt den Fuß.</p>
-      <p class="vers">Bein zu Beinen, Blut zu Blut, Glied zu Gliedern, als ob sie geleimt seien.</p>
-    </div>
-  </div>
-
-  <h2><span class="num">VIII</span>Hildebrandslied</h2>
-  <ul>
-    <li>Einziges erhaltenes Heldenlied der altdeutschen Sprache aus der Welt des Adels</li>
-    <li>Entstanden im 8. Jahrhundert am Hof des Langobardenkönigs; um 810 von zwei Mönchen in Fulda aufgezeichnet</li>
-    <li>Steht auf der ersten und letzten Seite eines lateinischen religiösen Buches</li>
-    <li>Altdeutsch-altsächsische Mischsprache; <b>Stabreim</b></li>
-  </ul>
-  <h3>Historischer Hintergrund und Handlung</h3>
-  <p>Der Waffenmeister Hildebrand floh zu den Hunnen und verließ Frau und neugeborenen Sohn. Nach 30 Jahren kehrt er mit einem Heer zurück und steht seinem erwachsenen Sohn Hadubrand gegenüber. Hildebrand erkennt ihn, doch der Kampf ist unvermeidbar: Die Ehre des Mannes gilt mehr als sein Leben. Die Aufzeichnung bricht nach Vers 67 ab; vermutlich tötet der Vater den Sohn (mögliches Ende: Klage oder Selbstmord des Vaters). Besonderheit des Motivs: Der Vater erkennt den Sohn.</p>
-  <h3>Wandel: „Jüngeres Hildebrandslied“</h3>
-  <p>Eine veränderte Fassung mit christlichem Einfluss und einem christlich-versöhnlichen Weltbild: Vater und Sohn erkennen und vertragen sich. Aus der Geschichte über germanische Kriegerehre wird eine Familiengeschichte.</p>
-
-  <h2><span class="num">IX</span>Nibelungenlied</h2>
-  <div class="two">
-    <div>
-      <ul>
-        <li>Bekanntestes mittelhochdeutsches Heldenepos; Hochmittelalter</li>
-        <li>Verfasser: unbekannter Dichter</li>
-        <li>Siegfried-Sage und Burgunden-Sage sind verbunden</li>
-        <li>Struktur: <b>39 Aventiuren</b></li>
-        <li>Leitmotiv: Liebe muss mit Schmerz bezahlt werden – <span class="mhd">liep</span> (Liebe, Freude) und <span class="mhd">leit</span> (Leid, Schmerz)</li>
-      </ul>
-      <h3>Form und Vortrag</h3>
-      <ul>
-        <li>Fester Rhythmus; Grundschema: 4 Langzeilen im Paarreim (aabb)</li>
-        <li>Jede Langzeile ist durch eine Zäsur in Anvers und Abvers unterteilt</li>
-        <li>Besonderheit: der 4. Abvers hat eine vierte Hebung (betonte Silbe)</li>
-        <li>Vortrag im Mittelalter: musikalisch</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Handlung</h3>
-      <ul>
-        <li>Ritter Siegfried und Prinzessin Kriemhild; erste Begegnung beim Hoffest</li>
-        <li>Kriemhild ist wunderschön „wie das Morgenrot“</li>
-        <li>Siegfried wird auf der Jagd von Hagen von Tronje ermordet</li>
-        <li>Kriemhilds grenzenloser Schmerz: sie schwört eisige Rache</li>
-        <li>Hagens Schuld wird durch das Wiederbluten der Wunden offenbart</li>
-        <li>Kriemhild heiratet den Hunnenkönig und vernichtet Hagen und seine Familie</li>
-      </ul>
-    </div>
-  </div>
-
-  <h2><span class="num">X</span>Parzival – Wolfram von Eschenbach</h2>
-  <div class="two">
-    <div>
-      <h3>Der Autor</h3>
-      <ul>
-        <li>Lebenszeit: ca. 1170 – 1220; Epoche: Mittelalter</li>
-        <li>Herkunft: vermutlich Eschenbach in Franken (heute Bayern)</li>
-        <li>Beruf: Dichter und Minnesänger; Sprache: Mittelhochdeutsch</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Der Ritterroman</h3>
-      <ul>
-        <li>Parzival wächst bei seiner Mutter Herzeloyde im Wald auf</li>
-        <li>Er verlässt die Mutter, um Ritter zu werden, und gelangt an den Hof des Königs Artus</li>
-        <li>Er wird nicht in den Kreis der Artusritter aufgenommen; der welterfahrene Ritter Gurnemanz lehrt ihn</li>
-      </ul>
-    </div>
-  </div>
-  <h3>Die Suche nach dem Heiligen Gral</h3>
-  <p>Parzival findet die Gralsburg und begegnet König Amfortas, stellt aber nicht die entscheidende Frage. Er erkennt seinen Fehler, begibt sich auf die Suche, lernt aus seinen Erlebnissen und spricht mit Trevrizent. Am Ende erlöst er Amfortas und wird selbst Gralskönig.</p>
-
-  <h2><span class="num">XI</span>Minnesang</h2>
-  <ul>
-    <li>Großer Teil der mittelhochdeutschen Lyrik; vor der Hofgesellschaft vorgesungen, begleitet auf Geige oder Laute</li>
-    <li>Öffentliche Liebesbotschaft und Bestandteil des geselligen Hoflebens</li>
-    <li>Ursprung: 12./13. Jahrhundert in der Provence; Vortragende: Troubadours, fahrende Sänger und Dichter</li>
-  </ul>
-  <div class="two">
-    <div>
-      <h3>Hohe Minne</h3>
-      <p>Verehrung einer hochgestellten, unerreichbaren Dame, die meist anwesend ist. Lob ihrer Vollkommenheit und Schönheit; der Ritter klagt, weil die Liebe unerwidert bleibt.</p>
-    </div>
-    <div>
-      <h3>Ebene Minne</h3>
-      <p>Walther von der Vogelweide, der bedeutendste Vertreter der Hohen Minne, lehnte sich gegen sie auf und stellte dem Traurigsein die wechselseitige, erfüllte Liebe entgegen.</p>
-    </div>
-  </div>
-  <h3>Liedformen des Minnesangs</h3>
-  <ul>
-    <li><b>Tagelied:</b> der Abschied der Liebenden nach einer unerlaubten Liebesnacht</li>
-    <li><b>Botenlied:</b> ein Bote tritt als Vermittler zwischen den Liebenden auf</li>
-    <li><b>Frauenstrophen:</b> aus Sicht der angebeteten Frau, die den Konventionen folgt und den Liebenden zurückweist</li>
-    <li><b>Wechsel:</b> abwechselnde Strophen von Mann und Frau ohne direkte Kommunikation</li>
-  </ul>
-
-  <h2><span class="num">XII</span>Der Ackermann aus Böhmen – Johannes von Tepl</h2>
-  <div class="two">
-    <div>
-      <h3>Der Autor</h3>
-      <ul>
-        <li>Lebenszeit: ca. 1350 – 1414/1415; Epoche: Spätmittelalter</li>
-        <li>Herkunft: Böhmen (heutiges Tschechien)</li>
-        <li>Beruf: Schriftsteller, Stadtschreiber und Notar; Sprachen: Deutsch und Latein</li>
-        <li>Erlebnishintergrund: der Tod seiner Frau bei einer Geburt</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Warum der Text bedeutend ist</h3>
-      <p>Sprachlich und inhaltlich modern und authentisch; inhaltlich betritt er Neuland: Das Menschenbild des Mittelalters wird dem Menschenbild der Neuzeit gegenübergestellt. Der <b>Tod</b> steht für die Ansicht des ausgehenden Mittelalters, der <b>Ackermann</b> für die Ansicht der beginnenden Neuzeit.</p>
-    </div>
-  </div>
-  <h3>Inhalt in vier Textstellen</h3>
-  <ol>
-    <li>Der Ackermann trauert um seine verstorbene Frau und klagt den Tod an.</li>
-    <li>Der Tod verteidigt sich und hält die Vorwürfe für ungerecht.</li>
-    <li>Der Tod erklärt: Alle Menschen müssen sterben, unabhängig von Reichtum oder Stand.</li>
-    <li>Der Ackermann kritisiert den Tod weiterhin als grausam und ungerecht.</li>
-  </ol>
-
-  <footer class="foot">
-    <span>Infoblatt zum Referat „Mittelalter“ · Luisa Göbl, Freya Gartler, Sarah Thordarson, Noemi Fink</span>
-    <span>Deutsch</span>
-  </footer>
+  <div class="a4-foot"><span>Infoblatt zum Referat „Mittelalter“</span><span>Luisa Göbl, Freya Gartler, Sarah Thordarson, Noemi Fink</span></div>
 </article>
 
-<!-- ───────────────────────────── LÜCKENTEXT ───────────────────────────── -->
-<article class="view sheet worksheet" id="view-lueckentext" hidden>
-  <header class="head">
+<article class="view a4 worksheet" id="view-lueckentext">
+  <div class="band"><span>Deutsch · Referat Mittelalter</span><span>Lückentext</span></div>
+  <div class="a4-head">
     <div>
-      <div class="eyebrow">Arbeitsblatt · Lückentext</div>
       <h1>Das Mittelalter</h1>
-      <p class="lead">Setze die passenden Wörter aus dem Wortkasten in die Lücken ein. Jedes Wort passt genau einmal.</p>
+      <div class="sub">Setze die passenden Wörter aus dem Wortkasten in die Lücken ein. Jedes Wort passt genau einmal.</div>
+      <div class="names">Luisa Göbl · Freya Gartler · Sarah Thordarson · Noemi Fink</div>
     </div>
-    <div class="meta">
-      <div class="names">Luisa Göbl · Freya Gartler<br>Sarah Thordarson · Noemi Fink</div>
-      <div>Name: ______________________ · Datum: __________</div>
-    </div>
-  </header>
-
-  <h3>Wortkasten</h3>
+    <div class="nameline">Name: ________________________<br>Datum: __________</div>
+  </div>
   <div class="bank" id="bank" aria-label="Wortkasten"></div>
-
-  <form id="cloze" autocomplete="off">
+<form id="cloze" autocomplete="off">
     <p>Das Mittelalter wird in drei Epochen eingeteilt. Das <span class="gap"><input id="g1" data-a="Frühmittelalter" aria-label="Lücke 1"><sup>1</sup></span> (ca. 500 – 1050) ist die Zeit des Althochdeutschen; die <span class="gap"><input id="g2" data-a="Klöster" aria-label="Lücke 2"><sup>2</sup></span> waren die wichtigsten Zentren der Schriftkultur. Im Hochmittelalter (1050 – 1250) sprach man <span class="gap"><input id="g3" data-a="Mittelhochdeutsch" aria-label="Lücke 3" style="width:16ch"><sup>3</sup></span>, und die höfische Kultur entwickelte sich. Im Spätmittelalter (1250 – 1500) gewannen die <span class="gap"><input id="g4" data-a="Städte" aria-label="Lücke 4"><sup>4</sup></span> und das Bürgertum an Bedeutung.</p>
 
     <p>Die Gesellschaft bestand aus drei Ständen: der Ritterschaft, den Bauern und der <span class="gap"><input id="g5" data-a="Geistlichkeit" aria-label="Lücke 5" style="width:13ch"><sup>5</sup></span>. Im Feudalsystem stand der <span class="gap"><input id="g6" data-a="König" aria-label="Lücke 6"><sup>6</sup></span> an der Spitze und vergab Lehen und Ämter. Der Grundsatz lautete: „Kein <span class="gap"><input id="g7" data-a="Lehen" aria-label="Lücke 7"><sup>7</sup></span> ohne Dienst, kein Dienst ohne Lehen.“</p>
@@ -451,22 +258,177 @@
       <span class="score" id="score" aria-live="polite"></span>
     </div>
   </form>
-
   <section class="solutions" id="solutions" hidden>
     <h3>Lösungen</h3>
     <ol id="sol-list"></ol>
   </section>
+  <div class="a4-foot"><span>Lückentext zum Referat „Mittelalter“</span><span>20 Lücken</span></div>
+</article>
 
-  <footer class="foot">
-    <span>Lückentext zum Referat „Mittelalter“ · Luisa Göbl, Freya Gartler, Sarah Thordarson, Noemi Fink</span>
-    <span>20 Lücken</span>
-  </footer>
+<article class="view sheet" id="view-bildausgabe" hidden>
+<header class="head">
+  <div>
+    <div class="eyebrow">Bildausgabe · alle 34 Folien mit Text</div>
+    <h1>Das Mittelalter</h1>
+    <p class="lead">Die 34 Folien des Referats, jede mit dem passenden Text: Epochen, Sprache, Gesellschaft, Rittertum und die großen Texte von den Merseburger Zaubersprüchen bis zum Ackermann aus Böhmen.</p>
+  </div>
+  <div class="meta">
+    <div class="names">Luisa Göbl · Freya Gartler<br>Sarah Thordarson · Noemi Fink</div>
+    <div>Zusammenfassung des Referats</div>
+  </div>
+</header>
+<figure class="hero"><img src="images/slide_01.jpg" alt="Folie 1: Titel" width="1100" height="645"><figcaption>Das Referat <b>„Mittelalter“</b> von <b>Luisa Göbl, Freya Gartler, Sarah Thordarson und Noemi Fink</b>. Die Ritterrüstung auf dem Titelbild steht für die Epoche, in der Ritter, Adel und Kirche Gesellschaft und Kultur prägten.</figcaption></figure>
+<h2><span class="num">I</span>Die drei Epochen</h2>
+<figure class="slide">
+  <img src="images/slide_03.jpg" alt="Folie 3: Frühmittelalter (ca. 500–1050)" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 3</span><h3>Frühmittelalter (ca. 500–1050)</h3><p>Die Sprache ist das <b>Althochdeutsche</b> (AHD). Jetzt entstehen die ersten schriftlichen Zeugnisse, und die <b>Klöster</b> sind die wichtigsten Zentren der Schriftkultur. Zu dieser Zeit gehören Karl der Große und das Hildebrandslied.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_04.jpg" alt="Folie 4: Hochmittelalter (1050–1250)" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 4</span><h3>Hochmittelalter (1050–1250)</h3><p>Man spricht <b>Mittelhochdeutsch</b> (MHD). Die höfische Kultur entwickelt sich; Ritter, Adel und Kirche prägen die Gesellschaft. Es ist die Zeit von Nibelungenlied, Parzival und Minnesang.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_05.jpg" alt="Folie 5: Spätmittelalter (1250–1500)" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 5</span><h3>Spätmittelalter (1250–1500)</h3><p>Das <b>Frühneuhochdeutsche</b> (FNHD) leitet zum Neuhochdeutschen über. Städte und Bürgertum gewinnen an Bedeutung; die Kultur wird jetzt von Adel <i>und</i> Bürgertum getragen. Dazu gehören Friedrich I. Barbarossa und sein Enkel Friedrich sowie Kaiser Maximilian I.</p></figcaption>
+</figure>
+<h2><span class="num">II</span>Herrscher</h2>
+<figure class="slide">
+  <img src="images/slide_02.jpg" alt="Folie 2: Herrscher" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 2</span><h3>Herrscher</h3><p>Könige und Kaiser hatten großen Einfluss auf Politik, Kriege und die Entwicklung ihrer Reiche. Die vier Namen, die man kennen sollte: <b>Karl der Große</b> (747–814), <b>Otto I.</b> (912–973), <b>Friedrich I. Barbarossa</b> (ca. 1122–1190) und <b>Rudolf I. von Habsburg</b> (1218–1291).</p></figcaption>
+</figure>
+<h2><span class="num">III</span>Sprachliche Veränderungen</h2>
+<figure class="slide">
+  <img src="images/slide_06.jpg" alt="Folie 6: Sprachliche Veränderungen" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 6</span><h3>Sprachliche Veränderungen</h3><p>Die <b>1. Lautverschiebung</b> fand vor dem Mittelalter statt: Sie veränderte Laute der indogermanischen Sprache und schuf die typischen Merkmale der germanischen Sprachen. Die <b>2. Lautverschiebung</b> im 5. Jahrhundert betraf vor allem die deutschen Hochdialekte.</p></figcaption>
+</figure>
+<h2><span class="num">IV</span>Gesellschaftsordnung und Feudalsystem</h2>
+<figure class="slide">
+  <img src="images/slide_07.jpg" alt="Folie 7: Gesellschaftsordnung" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 7</span><h3>Gesellschaftsordnung</h3><p>Die <b>Dreiständegesellschaft</b>: Ritterschaft (Wehrstand), Bauern (Nährstand) und Geistlichkeit (Lehrstand). Die drei Stände waren klar voneinander abgegrenzt, aber aufeinander bezogen: Jeder brauchte die anderen.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_08.jpg" alt="Folie 8: Das Feudalsystem" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 8</span><h3>Das Feudalsystem</h3><p>Der König steht an der Spitze und vergibt Lehen oder Ämter; große Lehensinhaber geben Teile gegen vereinbarte Dienste weiter. Grundsatz: <b>„Kein Lehen ohne Dienst, kein Dienst ohne Lehen.“</b> Der Lehensherr soll <i>milte</i> (freigebig) sein, der Lehensmann <i>triuwe</i> (treu). Man konnte zugleich Lehensherr und Lehensmann sein.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_09.jpg" alt="Folie 9: Die Stufen der Gesellschaft" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 9</span><h3>Die Stufen der Gesellschaft</h3><p>Von oben nach unten: der <b>König</b> (Schutz, vergab Ämter, Grund und Boden), die <b>Kronvasallen</b> (hoher Adel: Herzöge, Grafen, Bischöfe, Reichsäbte), die <b>Aftervasallen</b> (niedriger Adel: Ritter, Äbte, Ministerialen) und die <b>Abhängigen</b> (leibeigene Bauern, Knechte, Hörige). Untergebene erhielten Schutz und mussten Kriegsdienst leisten.</p></figcaption>
+</figure>
+<h2><span class="num">V</span>Die Ritter</h2>
+<figure class="slide">
+  <img src="images/slide_10.jpg" alt="Folie 10: Die Ritter" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 10</span><h3>Die Ritter</h3><p>Ein Ritter ist ein gerüsteter Reiter, Kern und Stärke des Heeres; seine wirtschaftliche Grundlage ist Land. Die Ausbildung führt vom <b>Pagen</b> (Erziehung am fremden Hof) über den <b>Knappen</b> (militärische Ausbildung) zur <b>Schwertleite</b>, dem Ritterschlag. Dazu gehören höfisches Betragen und Musik. Blütezeit: unter Barbarossa, 1152–1190.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_11.jpg" alt="Folie 11: Ritterliche Werte" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 11</span><h3>Ritterliche Werte</h3><p>Die Tugenden des höfischen Ritters: <i>êre</i> (Ehre), <i>zuht</i> (Selbstdisziplin), <i>mâze</i> (Maßhalten), <i>hoher muot</i> (Hochgefühl und Selbstbewusstsein), <i>vröude</i> (Lust am Leben) und <i>memento mori</i> (Bewusstsein für Tod und Vergänglichkeit). In den Kreuzzügen fühlten sich die Ritter als Streitmacht Gottes.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_12.jpg" alt="Folie 12: Ritter und Kultur" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 12</span><h3>Ritter und Kultur</h3><p>Im 12. Jahrhundert lösen die Ritter das Mönchtum als Träger der Kultur ab. Könige und Fürsten errichten Residenzen als Kulturstätten. Die höfische Lebensart entstand zuerst in Frankreich; die deutschen Zentren waren Schwaben, Bayern, Ostfranken und Österreich.</p></figcaption>
+</figure>
+<h2><span class="num">VI</span>Die Rolle der Klöster</h2>
+<figure class="slide">
+  <img src="images/slide_13.jpg" alt="Folie 13: Rolle der Klöster" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 13</span><h3>Rolle der Klöster</h3><p>Die Klöster waren wichtige Kulturzentren, das Mönchtum bis zum 12. Jahrhundert der Träger der Kultur. Die Geistlichkeit war in das Lehenssystem eingebunden: Äbte und Bischöfe waren Lehensmänner des Königs und zugleich dem Papst zu Gehorsam verpflichtet.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_15.jpg" alt="Folie 15: Benediktinerabtei Fulda" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 15</span><h3>Benediktinerabtei Fulda</h3><p>Die Benediktiner leben nach der <i>Regula Benedicti</i>: „Bete und arbeite“. Eine Abtei ist ein selbstständiges, bedeutendes Kloster. Fulda wurde 744 gegründet und ist mit Bonifatius verbunden; hier lernte man Lesen und Schreiben und schrieb Bücher von Hand.</p></figcaption>
+</figure>
+<h2><span class="num">VII</span>Merseburger Zaubersprüche</h2>
+<figure class="slide">
+  <img src="images/slide_14.jpg" alt="Folie 14: Merseburger Zaubersprüche: zeitliche Einordnung" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 14</span><h3>Merseburger Zaubersprüche: zeitliche Einordnung</h3><p>Frühmittelalter, 8. bis 10. Jahrhundert: eine von der Völkerwanderung geprägte Epoche, in der spätrömische Kultur und Christentum aufeinandertreffen und die Klöster die Kultur tragen.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_16.jpg" alt="Folie 16: Merseburger Zaubersprüche: Entstehung" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 16</span><h3>Merseburger Zaubersprüche: Entstehung</h3><p>Ab dem 8. Jahrhundert wurden in Klöstern Reste heidnisch-germanischer Dichtung aufgeschrieben. Die Merseburger Zaubersprüche stehen in einem Messbuch des 10. Jahrhunderts aus Fulda und gelten als die <b>ältesten deutschen Texte</b>. Aufbau: Teil 1 <i>Historiola</i> (die Geschichte), Teil 2 <i>Incantatio</i> (die Zauberformel).</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_17.jpg" alt="Folie 17: Die beiden Zaubersprüche" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 17</span><h3>Die beiden Zaubersprüche</h3><p>Der <b>1. Spruch</b> ist ein Lösezauber: Frauenfiguren wirken auf dem Schlachtfeld, Fesseln von Gefangenen werden gelöst, Feinde lahmgelegt. Der <b>2. Spruch</b> ist ein Heilungszauber: Vol und Wodan reiten in den Wald, Balders Fohlen verrenkt sich den Fuß, Wodan heilt ihn: „Bein zu Beinen, Blut zu Blut, Glied zu Gliedern, als ob sie geleimt seien.“</p></figcaption>
+</figure>
+<h2><span class="num">VIII</span>Hildebrandslied</h2>
+<figure class="slide">
+  <img src="images/slide_18.jpg" alt="Folie 18: Hildebrandslied" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 18</span><h3>Hildebrandslied</h3><p>Das einzige erhaltene Heldenlied der altdeutschen Sprache aus der Welt des Adels. Es entstand im 8. Jahrhundert am Hof des Langobardenkönigs und wurde um 810 von zwei Mönchen in Fulda auf die erste und letzte Seite eines lateinischen religiösen Buches geschrieben. Sprache: altdeutsch-altsächsische Mischsprache, im <b>Stabreim</b>.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_19.jpg" alt="Folie 19: Hildebrandslied: Historischer Hintergrund" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 19</span><h3>Hildebrandslied: Historischer Hintergrund</h3><p>Der Waffenmeister Hildebrand floh zu den Hunnen und verließ Frau und neugeborenen Sohn. Nach 30 Jahren kehrt er mit einem Heer zurück und steht seinem erwachsenen Sohn Hadubrand gegenüber. Hildebrand erkennt ihn.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_20.jpg" alt="Folie 20: Hildebrandslied: tragisches Ende" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 20</span><h3>Hildebrandslied: tragisches Ende</h3><p>Der Kampf ist unvermeidbar, denn die Ehre des Mannes gilt mehr als sein Leben. Die Aufzeichnung bricht nach Vers 67 ab; vermutlich tötet der Vater den Sohn, mögliche Enden sind Klage oder Selbstmord des Vaters. Das Besondere am Motiv: Der Vater erkennt den Sohn.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_21.jpg" alt="Folie 21: Wandel: „Jüngeres Hildebrandslied“" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 21</span><h3>Wandel: „Jüngeres Hildebrandslied“</h3><p>Eine veränderte Fassung mit christlichem Einfluss und einem versöhnlichen Weltbild: Vater und Sohn erkennen und vertragen sich. Aus der Geschichte über germanische Kriegerehre wird eine Familiengeschichte.</p></figcaption>
+</figure>
+<h2><span class="num">IX</span>Nibelungenlied</h2>
+<figure class="slide">
+  <img src="images/slide_22.jpg" alt="Folie 22: Nibelungenlied" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 22</span><h3>Nibelungenlied</h3><p>Das bekannteste mittelhochdeutsche Heldenepos aus dem Hochmittelalter, von einem unbekannten Dichter. Siegfried-Sage und Burgunden-Sage sind verbunden; die Struktur umfasst <b>39 Aventiuren</b>. Leitmotiv: Liebe muss mit Schmerz bezahlt werden, <i>liep</i> (Liebe, Freude) und <i>leit</i> (Leid, Schmerz).</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_23.jpg" alt="Folie 23: Nibelungenlied: Handlung" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 23</span><h3>Nibelungenlied: Handlung</h3><p>Ritter Siegfried und Prinzessin Kriemhild begegnen sich beim Hoffest; sie ist schön „wie das Morgenrot“. Siegfried wird auf der Jagd von Hagen von Tronje ermordet. Kriemhilds grenzenloser Schmerz wird zu eisiger Rache; Hagens Schuld offenbart sich durch das Wiederbluten der Wunden. Kriemhild heiratet den Hunnenkönig und vernichtet Hagen und seine Familie.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_24.jpg" alt="Folie 24: Nibelungenlied: Form und Vortrag" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 24</span><h3>Nibelungenlied: Form und Vortrag</h3><p>Fester Rhythmus; Grundschema sind vier Langzeilen im Paarreim (aabb). Eine Zäsur teilt jede Langzeile in Anvers und Abvers; Besonderheit: Der vierte Abvers trägt eine vierte Hebung (betonte Silbe). Im Mittelalter wurde das Epos musikalisch vorgetragen.</p></figcaption>
+</figure>
+<h2><span class="num">X</span>Parzival – Wolfram von Eschenbach</h2>
+<figure class="slide">
+  <img src="images/slide_25.jpg" alt="Folie 25: Parzival" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 25</span><h3>Parzival</h3><p>Wolfram von Eschenbachs mittelalterlicher Ritterroman. Parzival wächst bei seiner Mutter Herzeloyde im Wald auf, verlässt sie, um Ritter zu werden, und gelangt an den Hof des Königs Artus. In den Kreis der Artusritter wird er nicht aufgenommen; der welterfahrene Ritter Gurnemanz lehrt ihn.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_26.jpg" alt="Folie 26: Wolfram von Eschenbach" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 26</span><h3>Wolfram von Eschenbach</h3><p>Lebenszeit ca. 1170–1220, Epoche Mittelalter. Herkunft vermutlich Eschenbach in Franken (heute Bayern). Beruf: Dichter und Minnesänger. Sprache: Mittelhochdeutsch.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_27.jpg" alt="Folie 27: Die Suche nach dem Heiligen Gral" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 27</span><h3>Die Suche nach dem Heiligen Gral</h3><p>Parzival findet die Gralsburg und begegnet König Amfortas, stellt aber nicht die entscheidende Frage. Er erkennt seinen Fehler, begibt sich auf die Suche, lernt aus seinen Erlebnissen und spricht mit Trevrizent. Am Ende erlöst er Amfortas und wird Gralskönig.</p></figcaption>
+</figure>
+<h2><span class="num">XI</span>Minnesang</h2>
+<figure class="slide">
+  <img src="images/slide_28.jpg" alt="Folie 28: Minnelied allgemein" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 28</span><h3>Minnelied allgemein</h3><p>Ein großer Teil der mittelhochdeutschen Lyrik: vor der Hofgesellschaft vorgesungen, begleitet auf Geige oder Laute, eine öffentliche Liebesbotschaft und Bestandteil des geselligen Hoflebens. Ursprung im 12./13. Jahrhundert in der Provence; Vortragende waren Troubadours, fahrende Sänger und Dichter.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_29.jpg" alt="Folie 29: Hohe Minne" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 29</span><h3>Hohe Minne</h3><p>Die Verehrung einer hochgestellten, unerreichbaren Dame, die meist anwesend ist. Der Ritter lobt ihre Vollkommenheit und Schönheit und klagt, weil die Liebe unerwidert bleibt.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_30.jpg" alt="Folie 30: Ebene Minne" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 30</span><h3>Ebene Minne</h3><p>Walther von der Vogelweide, der bedeutendste Vertreter der Hohen Minne, lehnte sich gegen sie auf und stellte dem Traurigsein die wechselseitige, erfüllte Liebe entgegen.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_31.jpg" alt="Folie 31: Liedformen des Minnesangs" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 31</span><h3>Liedformen des Minnesangs</h3><p><b>Tagelied</b>: der Abschied der Liebenden nach einer unerlaubten Liebesnacht. <b>Botenlied</b>: ein Bote vermittelt zwischen den Liebenden. <b>Frauenstrophen</b>: aus Sicht der angebeteten Frau, die den Konventionen folgt und den Liebenden zurückweist. <b>Wechsel</b>: abwechselnde Strophen von Mann und Frau ohne direkte Kommunikation.</p></figcaption>
+</figure>
+<h2><span class="num">XII</span>Der Ackermann aus Böhmen – Johannes von Tepl</h2>
+<figure class="slide">
+  <img src="images/slide_32.jpg" alt="Folie 32: Der Ackermann aus Böhmen" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 32</span><h3>Der Ackermann aus Böhmen</h3><p>Autor ist Johannes von Tepl; der Erlebnishintergrund ist der Tod seiner Frau bei einer Geburt. Der Text ist sprachlich und inhaltlich modern und authentisch und betritt inhaltlich Neuland: Das Menschenbild des Mittelalters wird dem der Neuzeit gegenübergestellt. Der <b>Tod</b> vertritt das ausgehende Mittelalter, der <b>Ackermann</b> die beginnende Neuzeit.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_33.jpg" alt="Folie 33: Johannes von Tepl" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 33</span><h3>Johannes von Tepl</h3><p>Lebenszeit ca. 1350–1414/1415, Spätmittelalter. Herkunft Böhmen (heutiges Tschechien). Beruf: Schriftsteller, Stadtschreiber und Notar. Sprachen: Deutsch und Latein.</p></figcaption>
+</figure>
+<figure class="slide">
+  <img src="images/slide_34.jpg" alt="Folie 34: Der Ackermann: Inhalt" loading="lazy" width="1100" height="645">
+  <figcaption><span class="fn">Folie 34</span><h3>Der Ackermann: Inhalt</h3><p>Vier Textstellen: Der Ackermann trauert um seine Frau und klagt den Tod an. Der Tod verteidigt sich und hält die Vorwürfe für ungerecht. Der Tod erklärt, dass alle Menschen sterben müssen, unabhängig von Reichtum oder Stand. Der Ackermann kritisiert den Tod weiterhin als grausam und ungerecht.</p></figcaption>
+</figure>
+<footer class="foot"><span>Infoblatt zum Referat „Mittelalter“ · Luisa Göbl, Freya Gartler, Sarah Thordarson, Noemi Fink</span><span>34 Folien · Deutsch</span></footer>
 </article>
 
 <script>
   (function () {
     // Views on the hash: #infoblatt (start) and #lueckentext.
-    var views = { infoblatt: document.getElementById("view-infoblatt"), lueckentext: document.getElementById("view-lueckentext") };
+    var views = { infoblatt: document.getElementById("view-infoblatt"), lueckentext: document.getElementById("view-lueckentext"), bildausgabe: document.getElementById("view-bildausgabe") };
     function show() {
       var h = (location.hash || "#infoblatt").slice(1);
       if (!views[h]) h = "infoblatt";
